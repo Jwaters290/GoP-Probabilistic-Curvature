@@ -13,6 +13,9 @@ stress–energy calculator that maps \((E, \rho_b, z)\) to an effective
 probabilistic stress–energy tensor for use in cosmology, lensing, and galaxy
 dynamics.
 
+#Description is written in LaTeX
+Sorry for the code - but if you're here, you likely understand it.
+
 ---
 
 ## 1. Background
