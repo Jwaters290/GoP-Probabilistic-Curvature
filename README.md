@@ -2,8 +2,6 @@
 
 Reference implementation of the Gravity of Probability (GoP) probabilistic curvature term Tᵤₙᵤᵖʳᵒᵇ. Includes decoherence kernel Γ(E), global GoP constants, and Tᵐᵤₙᵤ^{prob} calculator for use in cosmology, lensing, and galaxy modeling.
 
-This repository provides a minimal, usable Python implementation of the decoherence kernel Γ(E), the global GoP parameters, and a simple stress–energy calculator that maps (E, ρ_b, z) to an effective probabilistic stress-energy tensor for use in cosmology, lensing, and galaxy dynamics.
-
 # Gravity of Probability (GoP) — Probabilistic Curvature Kernel
 
 
