@@ -8,7 +8,30 @@ Reference implementation of the Gravity of Probability (GoP) probabilistic curva
 
 This repository provides a minimal, usable Python implementation of the decoherence kernel Γ(E), the global GoP parameters, and a simple stress–energy calculator that maps (E, ρ_b, z) to an effective probabilistic stress-energy tensor for use in cosmology, lensing, and galaxy dynamics.
 
-The description above was originally written in LaTeX. This version uses plain Unicode characters for clarity.
+# Gravity of Probability (GoP) — Probabilistic Curvature Kernel
+
+
+This repository contains the official Python implementation of the GoP probabilistic curvature tensor Tᵘₙᵤᵖʳᵒᵇ, 
+including the decoherence kernel Γ(E), global GoP constants, and tools for computing rotation curves, 
+gravitational lensing, void thermodynamics, and large-scale structure predictions. This is the primary 
+codebase used for GoP predictions in DESI, Euclid, CMB, and lensing analyses.
+
+# Citations
+
+Jordan Waters
+The Gravity of Probability: Replicating Dark Matter Effects Through Quantum Decoherence Curvature
+Figshare DOI: 10.6084/m9.figshare.29815934
+
+Jordan Waters
+DESI DR2 VACs Predictions
+Fighsare DOI:  10.6084/m9.figshare.30593876
+
+Jordan Waters
+Foundations of the Gravity of Probability
+Figshare DOI:  10.6084/m9.figshare.30662603
+
+ORCID
+https://orcid.org/0009-0009-0793-8089
 
 1. Background
 
