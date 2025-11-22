@@ -67,3 +67,19 @@ their existing pipelines.
 ```bash
 git clone https://github.com/Jwaters290/GoP-Probabilistic-Curvature.git
 cd GoP-Probabilistic-Curvature
+
+
+---
+
+## Quickstart / Reproduce the main prediction
+
+git clone https://github.com/Jwaters290/GoP-Probabilistic-Curvature.git
+cd GoP-Probabilistic-Curvature
+pip install -r requirements.txt
+jupyter notebook examples/DESI_void_overlay.ipynb
+
+This notebook reproduces the predicted warm-core void profile and z-evolution ramp used for the DESI DR2 VACs predictions.
+
+All simulations in this repo use a single global parameter set
+κA = 1.5×10⁻¹⁵, E₀ = 10¹² erg, f_ent = 0.20, A_CP = 0.0245,
+fixed as of July 2025 prior to DESI DR2 VACs.
