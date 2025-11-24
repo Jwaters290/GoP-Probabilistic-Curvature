@@ -102,7 +102,7 @@ All simulations in this repo use a single global parameter set
 fixed as of July 2025 prior to DESI DR2 VACs.
 
 
-# 📡 VAC Phasing & Falsifiability Roadmap
+#  VAC Phasing & Falsifiability Roadmap
 
 This repository is designed to be forward-compatible with upcoming DESI Value-Added Catalogs (VACs).  
 The Gravity of Probability (GoP) framework is **explicitly falsifiable** and makes predictions *before* the relevant VACs exist.
@@ -111,7 +111,7 @@ The Gravity of Probability (GoP) framework is **explicitly falsifiable** and mak
 
 As DESI releases Lyα forest and early large-scale structure VACs, GoP predicts a specific, small but coherent deviation from ΛCDM in the linear matter power spectrum.
 
-At redshift \( z \sim 2.2\text{–}2.8 \), GoP predicts:
+At redshift z ≈ 2.2–2.8, GoP predicts:
 
 **Prediction:** DeltaP/P ≈ 0.02–0.04 for k ≈ 0.1 h/Mpc
 
@@ -130,11 +130,12 @@ This repo includes a ready-to-run test script:
 - `scripts/gop_lss_earlytest.py`  
   - Ingests DESI Lyα / LSS VAC power spectra  
   - Compares against GoP predictions  
-  - Computes and plots \( \Delta P / P \) around \( k \sim 0.1\, h/\mathrm{Mpc} \)
+  - Computes and plots ΔP/P around k ≈ 0.1 h/Mpc
+
 
 Once the relevant VACs are public, the Phase I test is essentially:
 
-> “Does DESI see a 2–4% systematic tilt at \( k \sim 0.1\, h/\mathrm{Mpc} \) consistent with GoP, or not?”
+> “Does DESI see a 2–4% systematic tilt at k ≈ 0.1 h/Mpc consistent with GoP, or not?”
 
 ### Phase II — Void Stacking & Warm Cores (Post–Year 1 unblinding, 2026+)
 
