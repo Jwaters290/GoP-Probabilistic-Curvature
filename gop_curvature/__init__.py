@@ -16,3 +16,8 @@ from .probabilistic_stress_energy import (
     rho_psi_effective,
     compute_tmunu_prob,
 )
+
+
+from .gop_cosmology import compute_pk_gop
+
+__all__ = ["compute_pk_gop"]
