@@ -14,13 +14,9 @@ The goal is to make the model’s falsifiability transparent and timestamped.
 
 **Prediction:**
 
-At redshift \( z \sim 2.2\text{–}2.8 \),
+At redshift z ≈ 2.2–2.8,
 
-\[
-\frac{\Delta P(k)}{P(k)} \equiv \frac{P_{\mathrm{GoP}}(k) - P_{\Lambda\mathrm{CDM}}(k)}{P_{\Lambda\mathrm{CDM}}(k)}
-\approx 0.02 \text{–} 0.04
-\quad \text{for} \quad k \simeq 0.1\, h/\mathrm{Mpc}.
-\]
+ΔP(k) / P(k) ≡ [P_GoP(k) – P_ΛCDM(k)] / P_ΛCDM(k) ≈ 0.02–0.04 for k ≈ 0.1 h/Mpc
 
 - Sign: **positive** (GoP predicts a mild enhancement at this scale).  
 - Scale: localized near \( k \sim 0.1\, h/\mathrm{Mpc} \), not a broadband arbitrary tilt.  
