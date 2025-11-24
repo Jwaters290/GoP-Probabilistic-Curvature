@@ -68,7 +68,7 @@ def gop_predict_pk(k_array, cosmo_params=None):
         Replace the toy model with your real GoP prediction.
     """
        # --- REAL GoP MODEL IMPLEMENTATION ---
-    from gop_core.gop_cosmology import compute_pk_gop
+    from gop_curvature.gop_cosmology import compute_pk_gop
     return compute_pk_gop(k_array, **(cosmo_params or {}))
 
 # ----------------------------------------------------------------------
