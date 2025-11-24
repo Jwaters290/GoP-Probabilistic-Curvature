@@ -14,8 +14,17 @@ This is a template. You need to:
     - Plug in your GoP prediction where indicated.
 """
 
+import sys
+import os
+
+# Ensure repo root is on the Python path so gop_curvature can be imported
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+
+
 import numpy as np
 import matplotlib.pyplot as plt
+from astropy.io import fits
 from pathlib import Path
 
 
@@ -27,19 +36,38 @@ def load_desi_pk(path):
     """
     Load DESI VAC power spectrum file.
 
-    Expected to return:
+    Returns:
         k   : array of k [h/Mpc]
-        Pk  : array of P(k) [units consistent across ΛCDM/GoP comparison]
+        pk  : array of P(k) [units consistent across LCDM/GoP comparison]
 
-    You MUST adapt this function to the actual DESI VAC format
-    (FITS, ASCII, HDF5, etc.).
+    Supports:
+        - FITS files (typical for DESI VACs)
+        - ASCII 2-column text files as a fallback
+
+    NOTE:
+        You will likely need to adjust the FITS column names ('K', 'PK')
+        to match the actual DESI VAC schema once it's public.
     """
     path = Path(path)
-    # Example placeholder assumption: 2-column ASCII: k  P(k)
+
+    # FITS case (DESI VAC style)
+    if path.suffix.lower() in {".fits", ".fit", ".fz"}:
+        with fits.open(path) as hdul:
+            # This assumes the power spectrum is in the first extension (hdul[1])
+            data = hdul[1].data
+
+            # You may need to change these to the actual column names later
+            # e.g., 'K' -> 'k', 'PK' -> 'power' depending on DESI schema
+            k = np.array(data["K"])
+            pk = np.array(data["PK"])
+        return k, pk
+
+    # ASCII fallback: 2-column plain text (k, P(k))
     data = np.loadtxt(path)
     k = data[:, 0]
     pk = data[:, 1]
     return k, pk
+
 
 
 # ----------------------------------------------------------------------
@@ -53,23 +81,15 @@ def gop_predict_pk(k_array, cosmo_params=None):
     This function is intentionally minimal and acts as a bridge to your
     existing GoP cosmology / P(k) code.
 
-    Options:
-        - Import your existing module, e.g.:
-              from gop_cosmology import compute_pk_gop
-          and call it here.
-        - Or implement a wrapper that uses CLASS / CAMB outputs
-          modified by GoP corrections.
-
-    For now, this is a placeholder that simply returns the input P(k)
-    shape scaled by a toy 2–4% bump around k ~ 0.1 h/Mpc so that
-    the plotting logic can be tested without real physics.
-
     IMPORTANT:
-        Replace the toy model with your real GoP prediction.
+        This now connects directly to the real GoP implementation
+        in gop_curvature.gop_cosmology. Update that module to change
+        the physics behavior.
     """
-       # --- REAL GoP MODEL IMPLEMENTATION ---
+    # --- REAL GoP MODEL IMPLEMENTATION ---
     from gop_curvature.gop_cosmology import compute_pk_gop
     return compute_pk_gop(k_array, **(cosmo_params or {}))
+
 
 # ----------------------------------------------------------------------
 # 3. Comparison and plotting
