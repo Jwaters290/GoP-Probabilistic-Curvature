@@ -168,3 +168,33 @@ This repository is built around a simple principle:
 
 All GoP constraints against DESI VACs are pre-registered here in code and documentation, so that validation or falsification can be checked immediately when the VACs become public.
 
+## Running the Early Lyα / LSS GoP Test (Developer Note)
+
+
+When the DESI Lyα / LSS Value-Added Catalog (VAC) becomes publicly available, you can test the GoP prediction directly using:
+
+```bash
+python scripts/gop_lss_earlytest.py \
+    --pk-file path/to/desi_pk_vac.dat \
+    --plot-out plots/delta_pk_gop.png
+```
+
+This will:
+
+load the DESI P(k) measurement
+
+compute ΔP/P
+
+generate a plot of the GoP prediction around k ≈ 0.1 h/Mpc
+
+Switching from the Toy Model to the Real GoP P(k) Prediction
+
+The script contains a placeholder “toy” gop_predict_pk function.
+Once the GoP cosmology module is installed, replace that function with:
+```bash
+from gop_cosmology import compute_pk_gop
+
+def gop_predict_pk(k_array, cosmo_params=None):
+    return compute_pk_gop(k_array, **(cosmo_params or {}))
+```
+This connects the test script directly to the real GoP cosmology pipeline so the P(k) comparison is physically meaningful when DESI VAC data is available.
