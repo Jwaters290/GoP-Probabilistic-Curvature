@@ -1,200 +1,188 @@
 # Keywords
-gravity-of-probability, decoherence, probabilistic-curvature, alternative-gravity, S8-tension, DESI DR2, warm void core prediction, mid-z void peak z=0.55, S₈ = 0.76–0.79 prediction, dipole amplification (1.2×–1.5×) prediction, BAO smoothing prediction, DESI, DESI-DR1, Lyα-forest, Lyman-alpha, large-scale-structure, LSS, power-spectrum, matter-power-spectrum, Pk-tilt, BAO, BAO-smearing, BAO-smoothing, voids, cosmic-voids, void-stacking, warm-void-core, SPARC-rotation-curves, falsifiable-gravity-model, pre-registered-predictions, DESI-void-test, ACP-CP-violation,
+gravity-of-probability, decoherence, probabilistic-curvature, alternative-gravity,
+S8-tension, DESI-DR2, warm-void-core, void-redshift-peak-0.55, S8-0.76-0.79,
+dipole-amplification, BAO-smoothing, DESI, DESI-DR1, Lyman-alpha, LyA-forest,
+large-scale-structure, LSS, Pk-tilt, matter-power-spectrum, BAO-smearing,
+cosmic-voids, void-stacking, SPARC-rotation-curves, falsifiable-gravity-model,
+pre-registered-predictions, DESI-void-test, ACP-CP-violation
+
+---
 
 # GoP-Probabilistic-Curvature
 
-Reference implementation of the Gravity of Probability (GoP) probabilistic curvature term Tᵤₙᵤᵖʳᵒᵇ. Includes decoherence kernel Γ(E), global GoP constants, and Tᵐᵤₙᵤ^{prob} calculator for use in cosmology, lensing, and galaxy modeling.
+This repository provides the reference implementation of the Gravity of Probability (GoP)
+probabilistic curvature term `T_prob(mu,nu)`.
 
-# Gravity of Probability (GoP) — Probabilistic Curvature Kernel
+Includes:
 
+- decoherence kernel `Gamma(E)`
+- global GoP constants
+- probabilistic stress-energy tools
+- warm-core and void predictions
+- rotation curve and lensing utilities
+- DESI / Euclid test scripts
 
-This repository contains the official Python implementation of the GoP probabilistic curvature tensor Tᵘₙᵤᵖʳᵒᵇ, 
-including the decoherence kernel Γ(E), global GoP constants, and tools for computing rotation curves, 
-gravitational lensing, void thermodynamics, and large-scale structure predictions. This is the primary 
-codebase used for GoP predictions in DESI, Euclid, CMB, and lensing analyses.
+This is the official codebase used for GoP predictions in cosmology and large-scale structure.
 
-### GoP Predictions (DESI DR2 VACs)
+---
 
-1. Warm-core cosmic void temperature imprint  
-2. Void redshift peak at z≈0.55  
-3. S₈ suppressed to 0.76–0.79  
-4. Cosmic dipole amplification factor 1.2×–1.5×  
-5. BAO peak smoothing/broadening  
-6. ΔH(z) crossover near z=0.45–0.55  
-7. Strong tracer independence across BGS, LRG, ELG, QSO voids
+# New (Pinned): DESI Warm-Core Prediction Script
 
+### File: `gop_warm_core_desipipeline.py`
+
+This script implements the GoP warm-core prediction using the fixed July 2025 parameter set:
+
+- kappaA = 1.5e-15  
+- E0_erg = 1e12  
+- f_ent = 0.20  
+- A_CP = 0.0245  
+
+It computes:
+
+- baryonic density profile rho_b(r)
+- probabilistic density rho_prob(r)
+- effective density rho_eff(r)
+- inner density slope (cusp vs. core)
+- warm-core enhancement factor
+- diagnostic plots compatible with DESI stacked void maps
+
+Run the script:
+
+```bash
+python gop_warm_core_desipipeline.py
+```
+Expected (pre-registered):
+
+- inner slope changes from approx. -1 (cusp) to approx. 0 (core)
+- warm inner profile
+- radial warm-core structure matching DESI DR2 VAC predictions
+
+---
+
+# GoP Predictions for DESI DR2
+
+- Warm-core cosmic void temperature imprint
+- Void redshift peak at z ≈ 0.55
+- S8 suppressed to 0.76 – 0.79
+- Dipole amplification factor 1.2x – 1.5x
+- BAO peak broadening / smoothing
+- H(z) crossover near z = 0.45 – 0.55
+- Tracer independence (BGS, LRG, ELG, QSO voids)
+
+All are based on a single fixed global parameter set (no tuning).
+
+---
 
 # Citations
 
-Jordan Waters
-The Gravity of Probability: Replicating Dark Matter Effects Through Quantum Decoherence Curvature
-Figshare DOI: 10.6084/m9.figshare.29815934
-https://figshare.com/articles/thesis/The_Gravity_of_Probability_i_Replicating_Dark_Matter_Effects_Through_Quantum_Decoherence_Curvature_i_/29815934?file=59563217
+- Jordan Waters
+"The Gravity of Probability: Replicating Dark Matter Effects Through Quantum Decoherence Curvature"
+DOI: 10.6084/m9.figshare.29815934
+https://figshare.com/articles/thesis/The_Gravity_of_Probability/29815934
 
-Jordan Waters
-DESI DR2 VACs Predictions
-Fighsare DOI:  10.6084/m9.figshare.30593876
-https://figshare.com/articles/preprint/DESI_DR2_VACs_Predictions/30593876?file=59479682
+- Jordan Waters
+"DESI DR2 VACs Predictions"
+DOI: 10.6084/m9.figshare.30593876
+https://figshare.com/articles/preprint/DESI_DR2_VACs_Predictions/30593876
 
-Jordan Waters
-Foundations of the Gravity of Probability
-Figshare DOI:  10.6084/m9.figshare.30662603
-https://figshare.com/articles/preprint/Foundations_of_the_Gravity_of_Probability_A_Decoherence-Driven_Extension_of_General_Relativity/30662603?file=59712056
+- Jordan Waters
+"Foundations of the Gravity of Probability"
+DOI: 10.6084/m9.figshare.30662603
+https://figshare.com/articles/preprint/Foundations_of_the_Gravity_of_Probability/30662603
 
 ORCID
 https://orcid.org/0009-0009-0793-8089
 
-Figshare
+Figshare Profile
 https://figshare.com/authors/Jordan_Waters/21620558
-
-1. Background
-
-In the Gravity of Probability framework, the total stress–energy tensor is written as:
-
-Tᵤₙᵤᵗᵒᵗᵃˡ = Tᵤₙᵤ + Tᵤₙᵤᵖʳᵒᵇ
-
-where:
-
-Tᵤₙᵤ is the classical stress–energy (baryons, radiation, etc.)
-
-Tᵤₙᵤᵖʳᵒᵇ encodes a small but non-negligible curvature contribution from unrealized quantum amplitudes, modulated by decoherence and entropy
-
-For a homogeneous fluid, we can approximate:
-
-Tᵤₙᵤᵖʳᵒᵇ ≈ κA · Γ(E) · ρ_ψ
-
-where:
-
-κA is the global amplitude that sets the overall strength of the probabilistic curvature
-
-Γ(E) is the decoherence kernel, implemented as a bell-curve function in energy
-
-ρ_ψ is the effective probabilistic or entanglement density, which follows the baryonic (normal-matter) distribution and is scaled by the entanglement fraction f_ent
-
-This repository exposes those ingredients in a simple Python API so that
-collaborations (e.g. DESI, Euclid, JWST, lensing groups) can plug GoP into
-their existing pipelines.
 
 ---
 
-## 2. Installation
+# Background
 
-### 2.1 Clone the repository
+The GoP framework modifies the total stress-energy tensor:
+
+T_total(mu,nu) = T_classical(mu,nu) + T_prob(mu,nu)
+
+Where:
+
+- T_classical is normal matter and radiation
+- T_prob is a decoherence-weighted curvature term arising from unrealized quantum amplitudes
+
+Approximate form: T_prob(mu,nu) ≈ kappaA * Gamma(E) * rho_psi
+
+Where:
+
+- kappaA sets amplitude
+- Gamma(E) is the GoP decoherence kernel
+- rho_psi is the entanglement-weighted baryonic density
+
+The global parameters are fixed prior to DESI DR2:
+
+kappaA = 1.5e-15
+E0_erg = 1e12
+f_ent = 0.20
+A_CP = 0.0245
+
+This repository provides a clean Python API for cosmology and LSS pipelines.
+
+---
+
+# Innstallation
+
 ```bash
 git clone https://github.com/Jwaters290/GoP-Probabilistic-Curvature.git
 cd GoP-Probabilistic-Curvature
+pip install -r requirements.txt
 ```
 
 ---
 
-## Quickstart / Reproduce the main prediction
+# Qucikstart (Core Prediction)
+
 ```bash
 git clone https://github.com/Jwaters290/GoP-Probabilistic-Curvature.git
 cd GoP-Probabilistic-Curvature
 pip install -r requirements.txt
 jupyter notebook examples/DESI_void_overlay.ipynb
 ```
+This notebook reproduces the predicted warm-core void shape and redshift ramp used in the preregistered DESI predictions.
 
-This notebook reproduces the predicted warm-core void profile and z-evolution ramp used for the DESI DR2 VACs predictions.
+---
 
-All simulations in this repo use a single global parameter set
-κA = 1.5×10⁻¹⁵, E₀ = 10¹² erg, f_ent = 0.20, A_CP = 0.0245,
-fixed as of July 2025 prior to DESI DR2 VACs.
+# VAC Phasing & Falsifiability Roadmap
 
+Phase I — Lyman-Alpha / LSS Power Spectrum (2026)
 
-#  VAC Phasing & Falsifiability Roadmap
+Prediction:
+DeltaP/P ≈ 0.02 – 0.04 at k ≈ 0.1 h/Mpc
 
-This repository is designed to be forward-compatible with upcoming DESI Value-Added Catalogs (VACs).  
-The Gravity of Probability (GoP) framework is **explicitly falsifiable** and makes predictions *before* the relevant VACs exist.
-
-### Phase I — Lyα / LSS Power Spectrum (Q1–Q2 2026)
-
-As DESI releases Lyα forest and early large-scale structure VACs, GoP predicts a specific, small but coherent deviation from ΛCDM in the linear matter power spectrum.
-
-At redshift z ≈ 2.2–2.8, GoP predicts:
-
-**Prediction:** DeltaP/P ≈ 0.02–0.04 for k ≈ 0.1 h/Mpc
-
-where
-
-**Definition:** DeltaP(k) = P_GoP(k) – P_LCDM(k)
-
-Key properties:
-
-- The effect is **sign-fixed** and **scale-localized** (around \( k \sim 0.1\, h/\mathrm{Mpc} \)).
-- It arises from **decoherence-driven probabilistic curvature**, not bias or nuisance parameters.
-- It is **not** predicted by standard ΛCDM or MOND.
-
-This repo includes a ready-to-run test script:
-
-- `scripts/gop_lss_earlytest.py`  
-  - Ingests DESI Lyα / LSS VAC power spectra  
-  - Compares against GoP predictions  
-  - Computes and plots ΔP/P around k ≈ 0.1 h/Mpc
-
-
-Once the relevant VACs are public, the Phase I test is essentially:
-
-> “Does DESI see a 2–4% systematic tilt at k ≈ 0.1 h/Mpc consistent with GoP, or not?”
-
-### Phase II — Void Stacking & Warm Cores (Post–Year 1 unblinding, 2026+)
-
-Full 3D void stacks, BAO-reconstructed density fields, and thermal / kSZ-like maps enable GoP’s primary “kill-shot” test:
-
-- **Warm cores in cosmic voids**
-- **Redshift-dependent thermal peaks in void interiors**
-- **Residual curvature consistent with probabilistic stress–energy, without dark matter**
-
-GoP predicts that properly stacked voids exhibit:
-
-1. A **central warming** (relative to ΛCDM expectations) consistent with decoherence-weighted curvature.
-2. A **preferred redshift band** for maximal warm-core signal.
-3. A **residual lensing / curvature signature** that cannot be mimicked by halo bias or baryonic feedback alone.
-
-Phase II uses:
-
-- `notebooks/gop_void_warmcore_template.ipynb`  
-  – placeholder analysis for:
-  - ingesting DESI void VACs  
-  - stacking voids in bins of radius and redshift  
-  - measuring thermal / curvature residuals  
-  - comparing to GoP predictions
-
-### Philosophy
-
-This repository is built around a simple principle:
-
-> **Predictions first, data later.**  
-
-All GoP constraints against DESI VACs are pre-registered here in code and documentation, so that validation or falsification can be checked immediately when the VACs become public.
-
-## Running the Early Lyα / LSS GoP Test (Developer Note)
-
-
-When the DESI Lyα / LSS Value-Added Catalog (VAC) becomes publicly available, you can test the GoP prediction directly using:
-
+Run:
 ```bash
-python scripts/gop_lss_earlytest.py \
-    --pk-file path/to/desi_pk_vac.dat \
-    --plot-out plots/delta_pk_gop.png
+python scripts/gop_lss_earlytest.py --pk-file desi_pk.dat
+```
+Phase II — Void Stacking (Primary Test)
+
+DESI stacked voids should show:
+
+- warm central region
+- redshift peak at ~0.55
+- curvature residual matching GoP predictions
+
+Run:
+```bash
+python gop_warm_core_desipipeline.py
 ```
 
-This will:
+---
 
-load the DESI P(k) measurement
+# Developer Note: Switching to Full GoP P(k)
+Change the toy function in gop_lss_earlytest.py to:
 
-compute ΔP/P
-
-generate a plot of the GoP prediction around k ≈ 0.1 h/Mpc
-
-Switching from the Toy Model to the Real GoP P(k) Prediction
-
-The script contains a placeholder “toy” gop_predict_pk function.
-Once the GoP cosmology module is installed, replace that function with:
-```bash
+```
 from gop_cosmology import compute_pk_gop
 
-def gop_predict_pk(k_array, cosmo_params=None):
-    return compute_pk_gop(k_array, **(cosmo_params or {}))
+def gop_predict_pk(k_array, cosmo=None):
+    return compute_pk_gop(k_array, **(cosmo or {}))
 ```
-This connects the test script directly to the real GoP cosmology pipeline so the P(k) comparison is physically meaningful when DESI VAC data is available.
+This upgrades the script to the full GoP cosmology.
