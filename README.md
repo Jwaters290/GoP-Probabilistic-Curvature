@@ -57,7 +57,7 @@ GoP-DESI-VACs-Pipeline-And-Testbed/
 
 ---
 
-# New (Pinned): DESI Warm-Core Prediction Script
+# DESI Warm-Core Prediction Script
 
 ### File: `gop_warm_core_desipipeline.py`
 
