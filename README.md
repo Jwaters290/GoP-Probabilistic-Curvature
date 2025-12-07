@@ -17,6 +17,8 @@ This is the official codebase used for GoP predictions in cosmology and large-sc
 
 ---
 
+# Repository Structure
+
 ```
 GoP-DESI-VACs-Pipeline-And-Testbed/
 │
