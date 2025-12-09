@@ -134,7 +134,7 @@ https://github.com/Jwaters290/GoP-vs-Lambda-Vacuum-Constant
 
 # GoP Predictions for DESI DR2
 
-- Warm-core cosmic void temperature imprint
+- Warm-core cosmic void temperature imprint ΔT≈8-12µk
 - Void redshift peak at z ≈ 0.55
 - S8 suppressed to 0.76 – 0.79
 - Dipole amplification factor 1.2x – 1.5x
