@@ -14,47 +14,6 @@ Includes:
 
 This is the official codebase used for GoP predictions in cosmology and large-scale structure.
 
-
----
-
-# Repository Structure
-
-```
-GoP-DESI-VACs-Pipeline-And-Testbed/
-│
-├── paper/
-│   ├── Excess_Radio_Dipole_GoP.tex
-│   ├── references.bib
-│   └── figures/
-│       ├── fig_radio_dipole_decomposition.tex
-│       ├── fig_redshift_tomography.tex
-│       └── fig_tracer_hierarchy.tex
-│
-├── data/
-│   ├── README_data.md
-│   ├── placeholder.txt
-│   └── mock/
-│       ├── mock_radio_dipoles.csv
-│       └── mock_void_catalog.csv
-│
-├── scripts/
-│   ├── compute_dipole_residuals.py
-│   ├── plot_tracer_hierarchy.py
-│   └── cross_correlate_radio_voids.py
-│
-├── results/
-│   ├── dipole_residuals_output.csv
-│   ├── tracer_hierarchy.png
-│   └── void_alignment_stats.csv
-│
-├── registry/
-│   └── prediction_registry_radio_dipole.md
-│
-├── .gitignore
-├── LICENSE
-└── README.md
-```
-
 ---
 
 # DESI Warm-Core Prediction Script
