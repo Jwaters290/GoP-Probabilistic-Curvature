@@ -5,6 +5,10 @@ This module provides simple, usable functions that map:
     (E, rho_b, z) -> T_prob(mu,nu)
 
 under a set of phenomenological assumptions consistent with existing GoP work.
+
+IMPORTANT CONVENTION:
+- The canonical bell-curve kernel gamma_bell_curve(E) already includes κA by default.
+  Therefore this module MUST NOT multiply by κA again (to avoid double counting).
 """
 
 from __future__ import annotations
@@ -13,7 +17,6 @@ import numpy as np
 
 from .gop_constants import (
     C_LIGHT,
-    KAPPA_A,
     F_ENT,
 )
 from .bell_curve_decoherence_kernel import gamma_bell_curve
@@ -31,10 +34,9 @@ def rho_psi_effective(
     Parameters
     ----------
     rho_b : float or numpy.ndarray
-        Baryonic mass density in g/cm^3.
+        Baryonic mass density in g/cm^3 (or a consistent proxy).
     z : float, optional
-        Cosmological redshift. For many local/galactic applications,
-        z ≈ 0 is appropriate. Default is 0.0.
+        Cosmological redshift. Default is 0.0.
     f_ent : float, optional
         Entanglement fraction: the fraction of baryonic density that
         effectively participates in the probabilistic scalar field.
@@ -43,7 +45,7 @@ def rho_psi_effective(
     Returns
     -------
     rho_psi : float or numpy.ndarray
-        Effective "probabilistic" density in g/cm^3.
+        Effective "probabilistic" density in g/cm^3 (or proxy units).
 
     Notes
     -----
@@ -64,7 +66,6 @@ def compute_tmunu_prob(
     E: float | np.ndarray,
     rho_b: float | np.ndarray,
     z: float = 0.0,
-    kappa_A: float = KAPPA_A,
     f_ent: float = F_ENT,
     eos_w: float = 0.0,
 ) -> np.ndarray:
@@ -75,18 +76,16 @@ def compute_tmunu_prob(
     Parameters
     ----------
     E : float or numpy.ndarray
-        Characteristic energy scale in erg (e.g. thermal energy, CR energy).
+        Characteristic energy scale (erg or consistent proxy).
     rho_b : float or numpy.ndarray
-        Baryonic mass density in g/cm^3.
+        Baryonic mass density in g/cm^3 (or consistent proxy).
     z : float, optional
         Cosmological redshift. Default is 0.0.
-    kappa_A : float, optional
-        Global GoP amplitude parameter. Defaults to KAPPA_A.
     f_ent : float, optional
         Entanglement fraction. Defaults to F_ENT.
     eos_w : float, optional
         Effective equation-of-state parameter w for the probabilistic
-        fluid: p = w * rho c^2. Default is 0 (dust-like).
+        fluid: p = w * u. Default is 0 (dust-like).
 
     Returns
     -------
@@ -100,40 +99,35 @@ def compute_tmunu_prob(
 
     Notes
     -----
-    The implemented mapping is:
+    Convention (canonical):
 
-        Gamma(E)      = bell-curve decoherence kernel (dimensionless)
-        rho_Psi       = rho_psi_effective(rho_b, z, f_ent)
-        rho_eff_prob  = kappa_A * Gamma(E) * rho_Psi        [g/cm^3]
-        u_eff_prob    = rho_eff_prob * c^2                  [erg/cm^3]
+        Γ(E)          = gamma_bell_curve(E)            [includes κA by default]
+        rho_Psi       = rho_psi_effective(rho_b, z)
+        rho_eff_prob  = Γ(E) * rho_Psi
+        u_eff_prob    = rho_eff_prob * c^2
 
     and
 
         T00 = u_eff_prob
         Tii = - w * u_eff_prob   (for i = 1, 2, 3)
-
-    This is intentionally simple and is meant as an interface layer:
-    cosmology codes can plug u_eff_prob into modified Friedmann or
-    growth equations as an effective additional component.
     """
     # Ensure numpy arrays for vectorized operations
     E_arr = np.asarray(E, dtype=float)
     rho_b_arr = np.asarray(rho_b, dtype=float)
 
-    # Decoherence kernel
+    # Canonical decoherence kernel Γ(E) (already includes κA)
     Gamma = gamma_bell_curve(E_arr)
 
-    # Effective probabilistic density
+    # Effective probabilistic density rho_Psi
     rho_psi = rho_psi_effective(rho_b_arr, z=z, f_ent=f_ent)
 
-    # Effective probabilistic mass density
-    rho_eff_prob = kappa_A * Gamma * rho_psi
+    # Effective probabilistic mass density (do NOT multiply by κA again)
+    rho_eff_prob = Gamma * rho_psi
 
     # Convert to energy density (erg/cm^3)
-    u_eff_prob = rho_eff_prob * C_LIGHT**2
+    u_eff_prob = rho_eff_prob * (C_LIGHT ** 2)
 
     # Build diagonal T^{prob}_{mu nu}
-    # For simplicity we assume a fluid at rest in this frame.
     T = np.zeros((4, 4), dtype=float)
     T[0, 0] = u_eff_prob
 
