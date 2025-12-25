@@ -64,7 +64,7 @@ Expected (pre-registered):
 A **companion repository** numerically verifies the stability of the effective vacuum energy
 produced by the GoP decoherence kernel:
 
-👉 https://github.com/Jwaters290/GoP-vs-Lambda-Vacuum-Constant
+- https://github.com/Jwaters290/GoP-vs-Lambda-Vacuum-Constant
 
 This test demonstrates that the canonical kernel
 
