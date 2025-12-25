@@ -34,7 +34,7 @@ This script implements the GoP warm-core prediction using the fixed July 2025 pa
 - f_ent = 0.20  
 - A_CP = 0.0245  
 
-It computes:
+The script computes:
 
 - Baryonic density profile ρ_b(r)
 - Probabilistic density contribution ρ_prob(r)
@@ -48,13 +48,59 @@ Run the script:
 ```bash
 python gop_warm_core_desipipeline.py
 ```
-Expected (pre-registered):
 
-- Inner slope transitions from cusp-like (≈ −1) to core-like (≈ 0)
-- Warm central void structure
-- Radial profile matching DESI DR2 VAC predictions
+## Execution Modes (Important)
 
-----
+The pipeline supports **two explicit execution modes**, serving different purposes.
+
+### 1. Normalized Mode (Default – Template / Overlay Mode)
+
+This mode rescales the local energy proxy so that the decoherence kernel Γ(E)
+activates visibly. It is intended for:
+
+- Demonstrating the warm-core *shape*
+- Pipeline verification
+- Overlaying predicted profiles on DESI stacked void maps
+- Figure generation for preregistered predictions
+
+This mode **does not claim physical unit normalization** and is explicitly a
+shape-demonstration mapping.
+
+Run:
+
+```bash
+python gop_warm_core_desipipeline.py --mode normalized --debug
+```
+
+
+Expected output:
+
+ - Inner slope transitions from cusp-like (≈ −1) to core-like (≈ 0)
+ - Strong central warm-core enhancement
+ - Diagnostic confirmation that Γ(E) and ρ_prob are non-zero
+ - Saved plots labeled by execution mode
+
+
+### 2. Physical Mode (Dimensionally Consistent)
+
+This mode uses a physically motivated energy density mapping:
+
+E_local ∝ ρ_b · c² · L_coh³
+
+It is intended for production-level modeling, once physical density units
+and coherence-scale assumptions are fixed.
+
+By default, effects may be small unless realistic densities and/or large
+coherence scales are supplied.
+
+Run:
+```
+python gop_warm_core_desipipeline.py --mode physical --Lcoh-cm 1e18 --debug
+
+```
+This mode preserves unit consistency and should be used when connecting to
+fully physical cosmological pipelines.
+
 
 
 ---
