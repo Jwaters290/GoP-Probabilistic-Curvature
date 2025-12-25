@@ -210,23 +210,7 @@ pip install -r requirements.txt
 
 ---
 
-## Quickstart (Core Prediction)
-
-Template-mode run (shows the warm-core shape and prints diagnostics):
-
-```bash
-python gop_warm_core_desipipeline.py --mode normalized --debug
-```
-
-Production-mode run (dimensionally consistent; requires physical density units and a chosen coherence scale):
-```
-bash
-Copy code
-python gop_warm_core_desipipeline.py --mode physical --Lcoh-cm 1e18 --debug
-```
----
-
-# VAC Phasing & Falsifiability Roadmap
+## VAC Phasing & Falsifiability Roadmap
 
 Phase I — Lyman-Alpha / LSS Power Spectrum (2026)
 
@@ -245,9 +229,9 @@ DESI stacked voids should show:
 - redshift peak at z ≈ 0.55
 - curvature residual matching GoP predictions
 
-Run:
+Run (template mode for overlays):
 ```bash
-python gop_warm_core_desipipeline.py
+python gop_warm_core_desipipeline.py --mode normalized
 ```
 
 ---
