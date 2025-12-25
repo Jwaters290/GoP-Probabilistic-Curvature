@@ -15,7 +15,7 @@ G_NEWTON: float = 6.67430e-8     # cm^3 g^-1 s^-2
 # galaxy, lensing, and cosmology applications.
 #
 # kappa_A is the overall amplitude scaling of the probabilistic curvature term.
-KAPPA_A: float = 1.5e-15   # dimensionless effective amplitude
+KAPPA_A: float = 1.5e-15   # effective amplitude (units depend on Γ(E) convention)
 
 # Characteristic energy scale in the bell-curve decoherence kernel Gamma(E).
 E0: float = 1.0e12         # erg
