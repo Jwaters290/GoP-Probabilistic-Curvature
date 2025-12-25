@@ -60,7 +60,7 @@ def rho_prob(r_kpc: np.ndarray, rho_b: np.ndarray, params: GoPParams) -> np.ndar
     E_local = rho_b * (C_LIGHT ** 2)
 
     # Bell-curve decoherence kernel Γ(E)
-    Gamma = params.kappaA * E_local * np.exp(1.0 - E_local / params.E0_erg)
+    Gamma = gamma_bell_curve(E_local, kappaA=params.kappaA, E0_local=params.E0_erg)
     return Gamma * params.f_ent * (1.0 + params.A_CP)
 
 
