@@ -1,24 +1,31 @@
-# GoP-Decoherence-Driven-Curvature
+# GoP–Decoherence–Driven Curvature
 
-This repository provides the reference implementation of the Gravity of Probability (GoP)
-probabilistic curvature term `T_prob(mu,nu)`.
+This repository provides the **reference implementation** of the Gravity of Probability (GoP)
+probabilistic curvature framework and its associated prediction pipelines.
 
-Includes:
+It implements the **probabilistic stress–energy contribution**:
 
-- decoherence kernel `Gamma(E)`
-- global GoP constants
-- probabilistic stress-energy tools
-- warm-core and void predictions
-- rotation curve and lensing utilities
-- DESI / Euclid test scripts
+T_prob(μν)
 
-This is the official codebase used for GoP predictions in cosmology and large-scale structure.
+arising from quantum decoherence and entanglement, and provides tools for
+galaxy dynamics, gravitational lensing, and large-scale structure tests.
+
+## Included Components
+
+- Canonical decoherence kernel Γ(E)
+- Global GoP constants (fixed, pre-registered)
+- Probabilistic stress–energy tensor tools
+- Warm-core and cosmic void predictions
+- Rotation curve and lensing utilities
+- DESI / Euclid large-scale structure test scripts
+
+This is the **official codebase** used for GoP predictions in cosmology and LSS analyses.
 
 ---
 
 # DESI Warm-Core Prediction Script
 
-### File: `gop_warm_core_desipipeline.py`
+### File: `gop_warm_core_desipipeline.py` (repo root)
 
 This script implements the GoP warm-core prediction using the fixed July 2025 parameter set:
 
@@ -29,12 +36,12 @@ This script implements the GoP warm-core prediction using the fixed July 2025 pa
 
 It computes:
 
-- baryonic density profile rho_b(r)
-- probabilistic density rho_prob(r)
-- effective density rho_eff(r)
-- inner density slope (cusp vs. core)
-- warm-core enhancement factor
-- diagnostic plots compatible with DESI stacked void maps
+- Baryonic density profile ρ_b(r)
+- Probabilistic density contribution ρ_prob(r)
+- Effective density ρ_eff(r)
+- Inner density slope (cusp vs. core)
+- Warm-core enhancement factor
+- Diagnostic plots compatible with DESI stacked void analyses
 
 Run the script:
 
@@ -43,124 +50,111 @@ python gop_warm_core_desipipeline.py
 ```
 Expected (pre-registered):
 
-- inner slope changes from approx. -1 (cusp) to approx. 0 (core)
-- warm inner profile
-- radial warm-core structure matching DESI DR2 VAC predictions
+- Inner slope transitions from cusp-like (≈ −1) to core-like (≈ 0)
+- Warm central void structure
+- Radial profile matching DESI DR2 VAC predictions
 
 ----
 
-## Vacuum Stability Test (Λ_eff Consistency Check)
-
-Importantly, in a repo that works parallel to this one, contains the numerical test verifying the constancy and stability of the effective vacuum energy produced by 
-the GoP decoherence kernel. It demonstrates that Γ(E) saturates and stabilizes Λ_eff under cosmological conditions, consistent with observations.
-
-The Gravity of Probability (GoP) framework produces a constant effective vacuum energy:
-
-Λ_eff,
-
-arising directly from the decoherence kernel:
-
-Γ(𝐸)=𝜅𝐴*𝐸𝑒^−𝐸/𝐸0
-
-This simulation demonstrates that probabilistic curvature naturally saturates to a stable vacuum state, even under extreme variations in the local energy distribution. This is a crucial internal consistency check showing that:
-
-- GoP does not overproduce vacuum energy
-
-- Λₑff converges rapidly and remains constant
-
-- The decoherence field ρΨ yields a cosmological constant without fine-tuning
-
-- The model remains compatible with late-time acceleration
-
-- The vacuum state is dynamically stable across cosmological scales
-
-This test is essential because any viable alternative to dark matter or modified gravity must also reproduce the observed vacuum energy density, Hubble expansion behavior, and dark-energy-like acceleration without introducing instabilities.
-
-The results here show that GoP’s decoherence-induced curvature produces a self-regulating Λ-term, tightly connected to the scalar field dynamics and entanglement fraction, and consistent with measurements from:
-
-Planck CMB ΛCDM parameters
-
-DESI BAO expansion rates
-
-SN Ia luminosity distances
-
-This repository is part of the broader GoP framework encompassing probabilistic curvature, quantum decoherence cosmology, dark-matter-free rotation curves, strong gravitational lensing predictions, and first-principles cosmological constant generation.
-
-
-https://github.com/Jwaters290/GoP-vs-Lambda-Vacuum-Constant
 
 ---
 
-# GoP Predictions for DESI DR2
+## Vacuum Stability & Λ_eff Consistency
 
-- Warm-core cosmic void temperature imprint ΔT≈8-12µk
-- Void redshift peak at z ≈ 0.55
-- S8 suppressed to 0.76 – 0.79
-- Dipole amplification factor 1.2x – 1.5x
-- BAO peak broadening / smoothing
-- H(z) crossover near z = 0.45 – 0.55
+A **companion repository** numerically verifies the stability of the effective vacuum energy
+produced by the GoP decoherence kernel:
+
+👉 https://github.com/Jwaters290/GoP-vs-Lambda-Vacuum-Constant
+
+This test demonstrates that the canonical kernel
+
+Γ(E) = κA · E · exp(1 − E / E₀)
+
+**naturally saturates**, producing a stable effective cosmological constant Λ_eff under
+cosmological conditions.
+
+### Key Results
+
+- No overproduction of vacuum energy
+- Rapid convergence to a constant Λ_eff
+- Stability under extreme energy distributions
+- Compatibility with late-time acceleration
+- No fine-tuning required
+
+Consistency is demonstrated relative to:
+
+- Planck CMB ΛCDM parameters
+- DESI BAO expansion history
+- Type Ia supernova luminosity distances
+
+This validates GoP as a **dark-matter-free curvature model that remains cosmologically viable**.
+
+---
+
+## GoP Predictions for DESI DR2 (Pre-Registered)
+
+All predictions below are based on a **single fixed global parameter set** (no tuning):
+
+- Warm-core cosmic void temperature imprint: ΔT ≈ 8–12 μK
+- Void redshift peak: z ≈ 0.55
+- Suppressed clustering amplitude: S₈ ≈ 0.76–0.79
+- Dipole amplification factor: 1.2×–1.5×
+- BAO peak smoothing / broadening
+- H(z) crossover near z ≈ 0.45–0.55
 - Tracer independence (BGS, LRG, ELG, QSO voids)
 
-All are based on a single fixed global parameter set (no tuning).
+---
+
+## Citations
+
+Jordan Waters  
+**“The Gravity of Probability: Replicating Dark Matter Effects Through Quantum Decoherence Curvature”**  
+DOI: 10.6084/m9.figshare.29815934  
+https://figshare.com/articles/thesis/The_Gravity_of_Probability/29815934  
+
+Jordan Waters  
+**“DESI DR2 VACs Predictions”**  
+DOI: 10.6084/m9.figshare.30593876  
+https://figshare.com/articles/preprint/DESI_DR2_VACs_Predictions/30593876  
+
+Jordan Waters  
+**“Foundations of the Gravity of Probability”**  
+DOI: 10.6084/m9.figshare.30662603  
+https://figshare.com/articles/preprint/Foundations_of_the_Gravity_of_Probability/30662603  
+
+ORCID  
+https://orcid.org/0009-0009-0793-8089  
+
+Figshare Profile  
+https://figshare.com/authors/Jordan_Waters/21620558  
 
 ---
 
-# Citations
+## Background: Probabilistic Curvature
 
-- Jordan Waters
-"The Gravity of Probability: Replicating Dark Matter Effects Through Quantum Decoherence Curvature"
-DOI: 10.6084/m9.figshare.29815934
-https://figshare.com/articles/thesis/The_Gravity_of_Probability/29815934
+The GoP framework modifies the total stress–energy tensor:
 
-- Jordan Waters
-"DESI DR2 VACs Predictions"
-DOI: 10.6084/m9.figshare.30593876
-https://figshare.com/articles/preprint/DESI_DR2_VACs_Predictions/30593876
-
-- Jordan Waters
-"Foundations of the Gravity of Probability"
-DOI: 10.6084/m9.figshare.30662603
-https://figshare.com/articles/preprint/Foundations_of_the_Gravity_of_Probability/30662603
-
-ORCID
-https://orcid.org/0009-0009-0793-8089
-
-Figshare Profile
-https://figshare.com/authors/Jordan_Waters/21620558
-
----
-
-# Background
-
-The GoP framework modifies the total stress-energy tensor:
-
-T_total(mu,nu) = T_classical(mu,nu) + T_prob(mu,nu)
+T_total(μν) = T_classical(μν) + T_prob(μν)
 
 Where:
 
-- T_classical is normal matter and radiation
-- T_prob is a decoherence-weighted curvature term arising from unrealized quantum amplitudes
+- T_classical represents standard matter and radiation
+- T_prob arises from decoherence-weighted quantum probability curvature
 
-Approximate form: T_prob(mu,nu) ≈ kappaA * Gamma(E) * rho_psi
+Canonical form:
+
+T_prob(μν) ∝ Γ(E) · ρ_Ψ
 
 Where:
 
-- kappaA sets amplitude
-- Gamma(E) is the GoP decoherence kernel
-- rho_psi is the entanglement-weighted baryonic density
+- Γ(E) is the GoP decoherence kernel (includes κA by convention)
+- ρ_Ψ is the entanglement-weighted baryonic density
 
-The global parameters are fixed prior to DESI DR2:
-
-kappaA = 1.5e-15
-E0_erg = 1e12
-f_ent = 0.20
-A_CP = 0.0245
-
-This repository provides a clean Python API for cosmology and LSS pipelines.
+All global parameters are **fixed prior to DESI DR2 analysis**.
 
 ---
 
-# Innstallation
+## Installation
 
 ```bash
 git clone https://github.com/Jwaters290/GoP-Probabilistic-Curvature.git
@@ -170,15 +164,11 @@ pip install -r requirements.txt
 
 ---
 
-# Qucikstart (Core Prediction)
+## Qucikstart (Core Prediction)
 
 ```bash
-git clone https://github.com/Jwaters290/GoP-Probabilistic-Curvature.git
-cd GoP-Probabilistic-Curvature
-pip install -r requirements.txt
-jupyter notebook examples/DESI_void_overlay.ipynb
+python gop_warm_core_desipipeline.py
 ```
-This notebook reproduces the predicted warm-core void shape and redshift ramp used in the preregistered DESI predictions.
 
 ---
 
@@ -187,7 +177,7 @@ This notebook reproduces the predicted warm-core void shape and redshift ramp us
 Phase I — Lyman-Alpha / LSS Power Spectrum (2026)
 
 Prediction:
-DeltaP/P ≈ 0.02 – 0.04 at k ≈ 0.1 h/Mpc
+ΔP/P ≈ 0.02–0.04 at k ≈ 0.1 h/Mpc
 
 Run:
 ```bash
@@ -198,7 +188,7 @@ Phase II — Void Stacking (Primary Test)
 DESI stacked voids should show:
 
 - warm central region
-- redshift peak at ~0.55
+- redshift peak at z ≈ 0.55
 - curvature residual matching GoP predictions
 
 Run:
@@ -208,16 +198,18 @@ python gop_warm_core_desipipeline.py
 
 ---
 
-# Developer Note: Switching to Full GoP P(k)
-Change the toy function in gop_lss_earlytest.py to:
-
+## Developer Note: Switching to Full GoP P(k)
+The default LSS test uses a Gaussian modifier for early testing.
+To switch to the full GoP cosmology:
 ```
-from gop_cosmology import compute_pk_gop
+from gop_core.gop_cosmology import compute_pk_gop
 
-def gop_predict_pk(k_array, cosmo=None):
+def gop_predict_modifier(k_array, cosmo=None):
     return compute_pk_gop(k_array, **(cosmo or {}))
+
 ```
 This upgrades the script to the full GoP cosmology.
+
 
 ---
 
