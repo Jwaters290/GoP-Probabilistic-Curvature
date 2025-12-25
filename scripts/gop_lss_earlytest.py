@@ -6,58 +6,58 @@ Early-phase DESI Lyα / LSS test for the Gravity of Probability (GoP) framework.
 
 Goal:
     - Ingest DESI power spectrum VAC products (P(k) vs k).
-    - Compute the GoP-predicted P(k) using your existing model.
-    - Compare ΔP/P around k ~ 0.1 h/Mpc and print/plot the result.
+    - Compute the GoP-predicted multiplicative modifier f_gop(k).
+    - Report ΔP/P ≈ f_gop(k) - 1 around k ~ 0.1 h/Mpc and plot the result.
 
-This is a template. You need to:
-    - Implement `load_desi_pk` for the actual VAC format.
-    - Plug in your GoP prediction where indicated.
+This is a template harness. You need to:
+    - Confirm the DESI VAC schema in `load_desi_pk`.
+    - Ensure compute_pk_gop returns a *modifier* f_gop(k), not an absolute P(k).
 """
 
 import sys
 import os
+from pathlib import Path
 
-# Ensure repo root is on the Python path so gop_curvature can be imported
+# Ensure repo root is on the Python path so gop_* packages can be imported
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-
 
 import numpy as np
 import matplotlib.pyplot as plt
-from astropy.io import fits
-from pathlib import Path
 
 
 # ----------------------------------------------------------------------
 # 1. Data loading stubs
 # ----------------------------------------------------------------------
 
-def load_desi_pk(path):
+def load_desi_pk(path: str | Path):
     """
     Load DESI VAC power spectrum file.
 
     Returns:
         k   : array of k [h/Mpc]
-        pk  : array of P(k) [units consistent across LCDM/GoP comparison]
+        pk  : array of P(k) (units depend on VAC; currently not used in ΔP/P modifier mode)
 
     Supports:
-        - FITS files (typical for DESI VACs)
+        - FITS files (typical for DESI VACs) if astropy is installed
         - ASCII 2-column text files as a fallback
 
     NOTE:
-        You will likely need to adjust the FITS column names ('K', 'PK')
-        to match the actual DESI VAC schema once it's public.
+        Adjust FITS column names ('K', 'PK') to match the actual DESI VAC schema.
     """
     path = Path(path)
 
     # FITS case (DESI VAC style)
     if path.suffix.lower() in {".fits", ".fit", ".fz"}:
-        with fits.open(path) as hdul:
-            # This assumes the power spectrum is in the first extension (hdul[1])
-            data = hdul[1].data
+        try:
+            from astropy.io import fits
+        except ImportError as e:
+            raise ImportError(
+                "Reading FITS requires astropy. Install with `pip install astropy` "
+                "or provide an ASCII (k, P(k)) file."
+            ) from e
 
-            # You may need to change these to the actual column names later
-            # e.g., 'K' -> 'k', 'PK' -> 'power' depending on DESI schema
+        with fits.open(path) as hdul:
+            data = hdul[1].data
             k = np.array(data["K"])
             pk = np.array(data["PK"])
         return k, pk
@@ -69,25 +69,24 @@ def load_desi_pk(path):
     return k, pk
 
 
-
 # ----------------------------------------------------------------------
 # 2. GoP prediction hook
 # ----------------------------------------------------------------------
 
-def gop_predict_pk(k_array, cosmo_params=None):
+def gop_predict_modifier(k_array: np.ndarray, cosmo_params: dict | None = None) -> np.ndarray:
     """
-    Compute GoP-predicted P(k) on the same k grid as the data.
+    Compute GoP-predicted multiplicative modifier f_gop(k) on the same k grid.
 
-    This function is intentionally minimal and acts as a bridge to your
-    existing GoP cosmology / P(k) code.
+    Contract:
+        Returns f_gop(k) such that:
+            P_GoP(k) = f_gop(k) * P_LCDM(k)
 
     IMPORTANT:
-        This now connects directly to the real GoP implementation
-        in gop_curvature.gop_cosmology. Update that module to change
-        the physics behavior.
+        This calls your canonical GoP cosmology implementation. Update that module
+        to change the physics behavior.
     """
-    # --- REAL GoP MODEL IMPLEMENTATION ---
-    from gop_curvature.gop_cosmology import compute_pk_gop
+    # Most likely correct location based on your repo structure:
+    from gop_core.gop_cosmology import compute_pk_gop
     return compute_pk_gop(k_array, **(cosmo_params or {}))
 
 
@@ -95,53 +94,41 @@ def gop_predict_pk(k_array, cosmo_params=None):
 # 3. Comparison and plotting
 # ----------------------------------------------------------------------
 
-def compute_delta_pk_over_pk(k, pk_data, pk_gop_modifier):
+def compute_delta_pk_over_pk(k: np.ndarray, f_gop: np.ndarray) -> np.ndarray:
     """
-    Given:
-        k              : array of k [h/Mpc]
-        pk_data        : DESI-measured P(k) (approx ΛCDM+noise)
-        pk_gop_modifier: multiplicative factor f_gop(k) such that
-                         P_GoP(k) = f_gop(k) * P_LCDM(k)
+    Compute ΔP/P under the modifier approximation:
 
-    We approximate:
         ΔP/P ≈ f_gop(k) - 1
-    assuming DESI data is near ΛCDM in the regime of interest.
+
+    This assumes the measured VAC P(k) is close to ΛCDM in the regime of interest.
     """
-    delta_over_pk = pk_gop_modifier - 1.0
-    return delta_over_pk
+    return f_gop - 1.0
 
 
-def summarize_delta(k, delta_over_pk, k_target=0.10, window=0.02):
+def summarize_delta(k: np.ndarray, delta_over_pk: np.ndarray, k_target: float = 0.10, window: float = 0.02):
     """
-    Print a simple numerical summary of ΔP/P near k_target.
-
-    Parameters:
-        k            : array of k [h/Mpc]
-        delta_over_pk: array of ΔP/P
-        k_target     : central k for the test (default 0.1 h/Mpc)
-        window       : half-width of the window around k_target
+    Print a numerical summary of ΔP/P near k_target.
     """
     mask = (k >= (k_target - window)) & (k <= (k_target + window))
     if not np.any(mask):
         print("No k-modes found in the target window.")
         return
 
-    mean_delta = np.mean(delta_over_pk[mask])
-    std_delta = np.std(delta_over_pk[mask])
+    mean_delta = float(np.mean(delta_over_pk[mask]))
+    std_delta = float(np.std(delta_over_pk[mask]))
 
     print("--------------------------------------------------")
-    print(" GoP early-phase ΔP/P summary around k ~ {:.3f} h/Mpc".format(k_target))
-    print(" Window: [{:.3f}, {:.3f}] h/Mpc".format(k_target - window, k_target + window))
-    print(" N modes: {}".format(np.sum(mask)))
-    print(" Mean ΔP/P: {:.3%}".format(mean_delta))
-    print(" Std  ΔP/P: {:.3%}".format(std_delta))
+    print(f" GoP early-phase ΔP/P summary around k ~ {k_target:.3f} h/Mpc")
+    print(f" Window: [{k_target - window:.3f}, {k_target + window:.3f}] h/Mpc")
+    print(f" N modes: {int(np.sum(mask))}")
+    print(f" Mean ΔP/P: {mean_delta:.3%}")
+    print(f" Std  ΔP/P: {std_delta:.3%}")
     print("--------------------------------------------------")
-    print("The prediction band is ~2–4%. Compare the above with that range.")
-    print("Replace the toy GoP model with your real P(k) implementation.")
+    print("Prediction band expectation (pre-registered): ~2–4% near k ~ 0.1 h/Mpc.")
     print("--------------------------------------------------")
 
 
-def plot_delta(k, delta_over_pk, outpath=None):
+def plot_delta(k: np.ndarray, delta_over_pk: np.ndarray, outpath: str | None = None):
     """
     Plot ΔP/P vs k and optionally save to file.
     """
@@ -186,14 +173,14 @@ def main():
 
     args = parser.parse_args()
 
-    # 1. Load DESI P(k)
-    k, pk_data = load_desi_pk(args.pk_file)
+    # 1. Load DESI P(k) (kept for future direct comparisons; not used in modifier-mode ΔP/P)
+    k, _pk_data = load_desi_pk(args.pk_file)
 
-    # 2. Compute GoP multiplicative factor (placeholder or real)
-    gop_modifier = gop_predict_pk(k)
+    # 2. Compute GoP multiplicative factor f_gop(k)
+    f_gop = gop_predict_modifier(k)
 
     # 3. Compute ΔP/P
-    delta_over_pk = compute_delta_pk_over_pk(k, pk_data, gop_modifier)
+    delta_over_pk = compute_delta_pk_over_pk(k, f_gop)
 
     # 4. Summarize around k ~ 0.1 h/Mpc
     summarize_delta(k, delta_over_pk, k_target=0.10, window=0.02)
