@@ -10,8 +10,7 @@ Goal:
     - Report ΔP/P ≈ f_gop(k) - 1 around k ~ 0.1 h/Mpc and plot the result.
 
 This is a template harness. You need to:
-    - Confirm the DESI VAC schema in `load_desi_pk`.
-    - Ensure compute_pk_gop returns a *modifier* f_gop(k), not an absolute P(k).
+    - Adjust `load_desi_pk` to the final VAC schema (FITS column names, extensions).
 """
 
 import sys
@@ -35,14 +34,15 @@ def load_desi_pk(path: str | Path):
 
     Returns:
         k   : array of k [h/Mpc]
-        pk  : array of P(k) (units depend on VAC; currently not used in ΔP/P modifier mode)
+        pk  : array of P(k) (currently unused in modifier-mode ΔP/P computation)
 
     Supports:
         - FITS files (typical for DESI VACs) if astropy is installed
         - ASCII 2-column text files as a fallback
 
     NOTE:
-        Adjust FITS column names ('K', 'PK') to match the actual DESI VAC schema.
+        You will likely need to adjust the FITS column names ('K', 'PK')
+        to match the DESI VAC schema once public.
     """
     path = Path(path)
 
@@ -57,7 +57,10 @@ def load_desi_pk(path: str | Path):
             ) from e
 
         with fits.open(path) as hdul:
+            # This assumes the power spectrum is in the first extension (hdul[1])
             data = hdul[1].data
+
+            # Adjust to actual VAC column names when known
             k = np.array(data["K"])
             pk = np.array(data["PK"])
         return k, pk
@@ -81,11 +84,8 @@ def gop_predict_modifier(k_array: np.ndarray, cosmo_params: dict | None = None) 
         Returns f_gop(k) such that:
             P_GoP(k) = f_gop(k) * P_LCDM(k)
 
-    IMPORTANT:
-        This calls your canonical GoP cosmology implementation. Update that module
-        to change the physics behavior.
+    This calls your canonical implementation in gop_core.gop_cosmology.
     """
-    # Most likely correct location based on your repo structure:
     from gop_core.gop_cosmology import compute_pk_gop
     return compute_pk_gop(k_array, **(cosmo_params or {}))
 
@@ -94,13 +94,10 @@ def gop_predict_modifier(k_array: np.ndarray, cosmo_params: dict | None = None) 
 # 3. Comparison and plotting
 # ----------------------------------------------------------------------
 
-def compute_delta_pk_over_pk(k: np.ndarray, f_gop: np.ndarray) -> np.ndarray:
+def compute_delta_pk_over_pk(f_gop: np.ndarray) -> np.ndarray:
     """
-    Compute ΔP/P under the modifier approximation:
-
+    Modifier-mode ΔP/P:
         ΔP/P ≈ f_gop(k) - 1
-
-    This assumes the measured VAC P(k) is close to ΛCDM in the regime of interest.
     """
     return f_gop - 1.0
 
@@ -173,19 +170,19 @@ def main():
 
     args = parser.parse_args()
 
-    # 1. Load DESI P(k) (kept for future direct comparisons; not used in modifier-mode ΔP/P)
+    # 1) Load DESI P(k) (currently unused for modifier-mode ΔP/P)
     k, _pk_data = load_desi_pk(args.pk_file)
 
-    # 2. Compute GoP multiplicative factor f_gop(k)
+    # 2) Compute GoP multiplicative modifier f_gop(k)
     f_gop = gop_predict_modifier(k)
 
-    # 3. Compute ΔP/P
-    delta_over_pk = compute_delta_pk_over_pk(k, f_gop)
+    # 3) Compute ΔP/P
+    delta_over_pk = compute_delta_pk_over_pk(f_gop)
 
-    # 4. Summarize around k ~ 0.1 h/Mpc
+    # 4) Summarize around k ~ 0.1 h/Mpc
     summarize_delta(k, delta_over_pk, k_target=0.10, window=0.02)
 
-    # 5. Plot
+    # 5) Plot
     plot_delta(k, delta_over_pk, outpath=args.plot_out)
 
 
