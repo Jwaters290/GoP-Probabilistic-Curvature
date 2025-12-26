@@ -1,6 +1,6 @@
 # GoP-DESI-VACs-Pipeline-And-Testbed
 
-This repository provides the **reference implementation** of the Gravity of Probability (GoP)
+This repository provides the **reference implementation** of the [Gravity of Probability (GoP)](https://figshare.com/articles/thesis/The_Gravity_of_Probability/29815934)
 probabilistic curvature framework and its associated prediction pipelines.
 
 It implements the **probabilistic stress–energy contribution**:
